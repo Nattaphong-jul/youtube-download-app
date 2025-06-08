@@ -26,7 +26,7 @@ def progress_hook_tk(d, label, progress_bar):
         label.config(text="Download Finished! Converting...")
 
 def download_audio(url, format_choice, label, progress_bar):
-    ffmpeg_path = os.path.abspath(os.path.join("ytdldata", "ffmpeg.exe"))
+    ffmpeg_path = os.path.abspath(os.path.join("ytdldata", "ffmpeg", "ffmpeg.exe"))
     output_dir = os.path.join(os.getcwd(), 'download')
     os.makedirs(output_dir, exist_ok=True)
 
