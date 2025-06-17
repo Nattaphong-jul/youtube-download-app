@@ -1,2 +1,5 @@
 ytdldata/ffmpeg/
 download/
+build/
+dist/
+main.spec
