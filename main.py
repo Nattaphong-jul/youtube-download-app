@@ -27,7 +27,7 @@ def progress_hook_tk(d, label, progress_bar):
 
 def download_audio(url, format_choice, label, progress_bar):
     ffmpeg_path = os.path.abspath(os.path.join("ytdldata", "ffmpeg", "ffmpeg.exe"))
-    output_dir = os.path.join(os.getcwd(), 'download')
+    output_dir = os.path.join(os.getcwd(), 'Download')
     os.makedirs(output_dir, exist_ok=True)
 
     ydl_opts = {
@@ -40,6 +40,9 @@ def download_audio(url, format_choice, label, progress_bar):
             'preferredquality': '192',
         }],
         'progress_hooks': [lambda d: progress_hook_tk(d, label, progress_bar)],
+        'http_headers': {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+        },
         'quiet': True,
     }
 
