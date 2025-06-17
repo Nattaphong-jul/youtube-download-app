@@ -82,6 +82,7 @@ def start_download_thread():
     progress_win.title("Downloading")
     progress_win.geometry("500x100")
     progress_win.resizable(False, False)
+    progress_win.iconbitmap(icon_path)
     tk.Label(progress_win, text="Downloading...", font=("Helvetica", 12)).pack(pady=5)
     title_label = tk.Label(progress_win, text="", font=("Helvetica", 10))
     title_label.pack()
@@ -95,6 +96,9 @@ def start_download_thread():
         progress_bar['value'] = 100
 
     threading.Thread(target=download_task, daemon=True).start()
+
+    # Clear the input field after starting download
+    link_input1.set("")
 
 # --- GUI Elements ---
 tk.Label(window, text='Enter URL from YouTube', fg='white', bg="#2D2D2D", font=('Arial', 10)).grid(row=0, column=0, sticky='SW', pady=2)
