@@ -49,6 +49,24 @@ def download_audio(url, format_choice, label, progress_bar):
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
 
+def download_video_mp4(url, label, progress_bar):
+    ffmpeg_path = os.path.abspath(os.path.join("ytdldata", "ffmpeg", "ffmpeg.exe"))
+    output_dir = os.path.join(os.getcwd(), 'Download')
+    os.makedirs(output_dir, exist_ok=True)
+
+    ydl_opts = {
+        'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4',
+        'merge_output_format': 'mp4',
+        'ffmpeg_location': ffmpeg_path,
+        'outtmpl': os.path.join(output_dir, '%(title)s.%(ext)s'),
+        'progress_hooks': [lambda d: progress_hook_tk(d, label, progress_bar)],
+        'quiet': True,
+    }
+
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([url])
+
+
 # --- Function to check if URL is valid ---
 def is_supported(url: str) -> bool:
     ydl_opts = {
@@ -68,7 +86,7 @@ def is_supported(url: str) -> bool:
 # --- GUI setup ---
 window = tk.Tk()
 link_input1 = tk.StringVar()
-format_choice = ['MP3', 'WAV', 'MP3']
+format_choice = ['MP3', 'WAV', 'MP3', 'MP4']
 sound_format = tk.StringVar(value="MP3")
 
 def start_download_thread():
@@ -91,7 +109,10 @@ def start_download_thread():
 
     # Start download in a new thread
     def download_task():
-        download_audio(url, sound_format.get(), title_label, progress_bar)
+        if sound_format.get() == "MP4":
+            download_video_mp4(url, title_label, progress_bar)
+        else:
+            download_audio(url, sound_format.get(), title_label, progress_bar)
         title_label.config(text="Done!")
         progress_bar['value'] = 100
 
